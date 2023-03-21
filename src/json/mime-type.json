@@ -1,0 +1,10 @@
+{
+    "pdf": [
+        {
+            "type": "PDF file",
+            "extension": ".pdf",
+            "mimetype": "application/pdf",
+            "defaultType": "PDF"
+        }
+    ]
+}
