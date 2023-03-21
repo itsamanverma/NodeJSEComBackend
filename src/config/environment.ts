@@ -82,5 +82,11 @@ switch (ENVIRONMENT) {
 export const SERVER = Object.freeze({
     APP_NAME: "NODE_ECOMMERCE_BACKEND",
     TEMPLATE_PATH: process.cwd() + "/src/views",
-    
+    UPLOAD_DIR: process.cwd() + "src/uploads",
+    LOGIN_TOKEN_EXPIRATION_TIME: 180 * 24 * 60 * 60 * 1000,
+    JWT_CRET_KEY: "seff(-=~!Sd)",
+    SALT_ROUND: 10,
+    ENC: "qwew1234FHR@#$%2",
+    JWT_ALGO: "HS256",
+    CHUNK_SIZE: 1000,
 });
