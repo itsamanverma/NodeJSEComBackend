@@ -334,6 +334,67 @@ export class BaseDao {
             throw new Error(error);
         }
     }
+
+    customPaginate = async (model: ModelNames, pipeline: Array<Object>, limit: number, pageNo: number, options: any = {}, pageCount = false) => {
+        try {
+            let ModelName: any = models[model];
+
+            let promiseAll = [];
+            if (!_.isEmpty(options)) {
+                if (options.collation) {
+                    promiseAll = [
+                        ModelName.aggregate(pipeline).collation({ "locale": "en" }).allowDiskUse(true)
+                    ];
+                } else {
+                    promiseAll = [
+                        ModelName.aggregate(pipeline).allowDiskUse(true)
+                    ];
+                }
+            } else {
+                promiseAll = [
+                    ModelName.aggregate(pipeline).allowDiskUse(true) 
+                ];
+            }
+
+            if (pageCount) {
+                for (let index = 0; index < pipeline.length; index++) {
+                    if ("$skip" in pipeline[index]) {
+                        pipeline = pipeline.slice(0, index);
+                    } else {
+                        //pipeline = pipeline;
+                    }
+                }
+                pipeline.push({ "$count": "total" });
+                promiseAll.push(ModelName.aggregate(pipeline).allowDiskUse(true));
+            }
+            let result = await Promise.all(promiseAll);
+            let nextHit = 0;
+            let total = 0;
+            let totalPage = 0;
+
+            if (pageCount) {
+                total = result[1] && result[1][0] ? result[1][0]["total"] : 0;
+                totalPage = Math.ceil(total / limit);
+            }
+
+            let data: any = result[0];
+            if(result[0].length > limit ){
+                nextHit = pageNo + 1;
+                data = result[0].slice(0, limit);
+            }
+
+            return {
+                "data": data,
+                "total": total,
+                "pageNo": pageNo,
+                "totalPage": totalPage,
+                "nextHit": nextHit,
+                "limit": limit
+            };
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
 }
 
 export const baseDao = new BaseDao();
