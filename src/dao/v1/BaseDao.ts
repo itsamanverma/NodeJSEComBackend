@@ -9,8 +9,8 @@ export class BaseDao {
 
     save = async (model: ModelNames, data:any) => {
         try {
-            const ModelNames: any = models[model];
-            return await new ModelNames(data).save();
+            const ModelName: any = models[model];
+            return await new ModelName(data).save();
         } catch (error) {
             return Promise.reject(error);
         }    
@@ -18,19 +18,19 @@ export class BaseDao {
 
     find = async (model: ModelNames, query: any, projection: any, options: QueryOptions, sort, paginate, populateQuery: any) => {
         try {
-            const ModelNames: any = models[model];
+            const ModelName: any = models[model];
             if (!_.isEmpty(sort) && !_.isEmpty(paginate) && !_.isEmpty(populateQuery)) { //sorting with pagination
-                return await ModelNames.find(query,projection,options).sort(sort).skip((paginate.pageNo - 1) * paginate.limit).limit(paginate.limit);
+                return await ModelName.find(query,projection,options).sort(sort).skip((paginate.pageNo - 1) * paginate.limit).limit(paginate.limit);
             } else if (_.isEmpty(sort) && !_.isEmpty(paginate) && _.isEmpty(populateQuery)){ //pagination
-                return await ModelNames.find(query,projection,options).skip((paginate.pageNo - 1) * paginate.limit).limit(paginate.limit);
+                return await ModelName.find(query,projection,options).skip((paginate.pageNo - 1) * paginate.limit).limit(paginate.limit);
             } else if(_.isEmpty(sort) && _.isEmpty(paginate) && !_.isEmpty(populateQuery)){ //populate
-                return await ModelNames.find(query,projection,options).populate(populateQuery).exec();
+                return await ModelName.find(query,projection,options).populate(populateQuery).exec();
             } else if (_.isEmpty(sort) && !_.isEmpty(paginate) && !_.isEmpty(populateQuery)) { //pagination with populate
-                return await ModelNames.find(query,projection,options).skip((paginate.pageNo - 1) * paginate.limit).populate(populateQuery).exec();
+                return await ModelName.find(query,projection,options).skip((paginate.pageNo - 1) * paginate.limit).populate(populateQuery).exec();
             } else if (!_.isEmpty(sort) && _.isEmpty(paginate) && _.isEmpty(populateQuery)) { // only sorting
-                return await ModelNames.find(query,projection,options).sort(sort).exec();
+                return await ModelName.find(query,projection,options).sort(sort).exec();
             }else {
-                return await ModelNames.find(query,projection,options);
+                return await ModelName.find(query,projection,options);
             }
         } catch (error) {
             return Promise.reject(error);
@@ -39,8 +39,70 @@ export class BaseDao {
 
     distinct = async (model: ModelNames, path: string, query: any) => {
         try {
-            const ModelNames: any = models[model];
-            return await ModelNames.distinct(path, query);
+            const ModelName: any = models[model];
+            return await ModelName.distinct(path, query);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    findOne = async (model: ModelNames, query: any, projection: any, options: QueryOptions, sort: any, populateQuery: any) => {
+        try {
+            const ModelName: any = models[model];
+            if (!_.isEmpty(populateQuery) && _.isEmpty(sort)) { // only populate
+                return await ModelName.findOne(query, projection, options).populate(populateQuery).exec();
+            } else if (!_.isEmpty(sort) && _.isEmpty(populateQuery)) { // only sort 
+                return await ModelName.findOne(query, projection, options).sort(sort).exec();
+            } else if (!_.isEmpty(sort) && !_.isEmpty(populateQuery)) { // sorting with populate
+                return await ModelName.findOne(query, projection, options).sort(sort).populate(populateQuery).exec();
+            }else{
+                return await ModelName.findOne(query, projection, options);
+            }
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    findOneAndUpdate = async (model: ModelNames, query: any, update: any, options: QueryOptions) => {
+        try {
+            const ModelName: any = models[model];
+            return await ModelName.findOneAndUpdate(query, update, options);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    findAndRemove = async (model: ModelNames, query: any, update: any, options: QueryOptions) => {
+        try {
+            const ModelName: any = models[model];
+            return await ModelName.findOneAndRemove(query, update, options);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    update = async (model: ModelNames, query: any, update: any, options: QueryOptions) => {
+        try {
+            const modelName: any = models[model];
+            return await modelName.update(query, update, options);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    updateOne = async (model: ModelNames, query: any, update: any, options: QueryOptions) => {
+        try {
+            const ModelName: any = models[model];
+            return await ModelName.updateOne(query, update, options);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
+
+    updateMany = async (model: ModelNames, query: any, update: any, options: QueryOptions) => {
+        try {
+            const ModelName: any = models[model];
+            return await ModelName.updateMany(query, update, options);
         } catch (error) {
             return Promise.reject(error);
         }
