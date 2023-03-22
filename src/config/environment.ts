@@ -89,4 +89,11 @@ export const SERVER = Object.freeze({
     ENC: "qwew1234FHR@#$%2",
     JWT_ALGO: "HS256",
     CHUNK_SIZE: 1000,
+    APP_URL: process.env['APP_URL'],
+    API_KEY: 1234,
+    ENVIRONMENT: process.env['ENVIRONMENT'],
+    IP: process.env['IP'],
+    PORT: process.env['PORT'],
+    IS_REDIS_ENABLE: true,
+    IS_TRANSLOAD_ENABLE: true,
 });

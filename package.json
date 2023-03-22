@@ -7,7 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --project tsconfig.json"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:itsamanverma/NodeJSEComBackend.git"
+  },
+  "author": "AMAN VERMA",
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.17.17",
@@ -17,7 +21,9 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "helmet": "^6.0.1",
+    "lodash": "^4.17.21",
     "mongoose": "^7.0.2",
+    "nanoid": "^4.0.1",
     "typescript": "^5.0.2"
   }
 }

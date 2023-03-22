@@ -1,4 +1,11 @@
+"use strict";
 
+console.log("//*************************** Node Ecommerce Backend ************************************//");
+
+console.log("env: ", process.env.NODE_ENV.trim());
+
+import * as fs from 'fs';
+import * as config from "./config/index";
 import express from "express";
 import bodyParser from "body-parser";
 import helmet from "helmet";
